@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EasyStay | Home</title>
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+    <header>
+        <h1 class="logo">EasyStay</h1>
+        <nav>
+            <a href="index.html" class="nav-btn">Home</a>
+            <a href="listings.html" class="nav-btn">Browse</a>
+            <a href="bookings.html" class="nav-btn">My Bookings</a>
+            <a href="#" class="nav-btn">Contact</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="hero-content">
+                <h2>Find your perfect stay with <span>EasyStay</span></h2>
+                <p>Explore destinations, book stays, and relax your way.</p>
+
+                <div class="search-box">
+                    <div class="input-group">
+                        <label for="location">Location</label>
+                        <input type="text" id="location" placeholder="Enter location..." />
+                    </div>
+
+                    <div class="input-group">
+                        <label for="checkin">Check-in</label>
+                        <input type="date" id="checkin" />
+                    </div>
+
+                    <div class="input-group">
+                        <label for="checkout">Check-out</label>
+                        <input type="date" id="checkout" />
+                    </div>
+
+                    <button id="searchBtn">Search</button>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="featured">
+            <h2>Featured Destinations</h2>
+            <div class="card-container">
+                <div class="card">
+                    <img src="images/hotel1.png" alt="Goa">
+                    <h3>Goa</h3>
+                    <p>Sun, sand, and sea — the perfect coastal escape.</p>
+                    <button onclick="exploreDestination('goa')">Explore</button>
+                </div>
+
+                <div class="card">
+                    <img src="images/hotel2.png" alt="Paris">
+                    <h3>Manali</h3>
+                    <p>The city of lights awaits you with charm and culture.</p>
+                    <button onclick="exploreDestination('manali')">Explore</button>
+                </div>
+
+                <div class="card">
+                    <img src="images/hotel3.png" alt="Tokyo">
+                    <h3>Udaipur</h3>
+                    <p>Modern vibes meet ancient tradition in Japan’s capital.</p>
+                    <button onclick="exploreDestination('udaipur')">Explore</button>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2025 EasyStay · Designed with 💙 by You</p>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+
+</html>

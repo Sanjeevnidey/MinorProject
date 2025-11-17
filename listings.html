@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Available Stays | EasyStay</title>
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+    <header>
+        <h1>EasyStay</h1>
+        <nav>
+            <a href="index.html" class="nav-btn">Home</a>
+            <a href="listings.html" class="nav-btn">Browse</a>
+            <a href="bookings.html" class="nav-btn">My Bookings</a>
+            <a href="#" class="nav-btn">Contact</a>
+        </nav>
+    </header>
+
+    <section class="featured">
+        <h2>Available Stays</h2>
+        <div class="filters">
+            <label for="priceFilter">Sort by Price:</label>
+            <select id="priceFilter">
+                <option value="default">Default</option>
+                <option value="lowToHigh">Low to High</option>
+                <option value="highToLow">High to Low</option>
+            </select>
+
+            <label for="ratingFilter">Min Rating:</label>
+            <select id="ratingFilter">
+                <option value="0">All</option>
+                <option value="4">4+</option>
+                <option value="4.5">4.5+</option>
+            </select>
+        </div>
+
+        <div class="card-container" id="results"></div>
+    </section>
+
+    <script src="js/script.js"></script>
+    <footer>
+  <p>© 2025 EasyStay</p>
+</footer>
+
+</body>
+
+</html>
