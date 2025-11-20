@@ -29,13 +29,13 @@ if (searchBtn) {
         localStorage.setItem("checkinDate", checkin);
         localStorage.setItem("checkoutDate", checkout);
 
-        window.location.href = "listings.html";
+        window.location.href = "listings.php";
     });
 
 }
 
 // --- Display Results on Listings Page ---
-if (window.location.pathname.includes("listings.html")) {
+if (window.location.pathname.includes("listings.php")) {
     const searchLocation = localStorage.getItem("searchLocation");
     const resultsDiv = document.getElementById("results");
 
@@ -88,11 +88,11 @@ if (window.location.pathname.includes("listings.html")) {
 // --- Book Now Function ---
 function bookNow(id) {
     localStorage.setItem("selectedStay", id);
-    window.location.href = "booking.html";
+    window.location.href = "booking.php";
 }
 
-// --- Show Selected Stay Details on booking.html ---
-if (window.location.pathname.includes("booking.html")) {
+// --- Show Selected Stay Details on booking.php ---
+if (window.location.pathname.includes("booking.php")) {
     const stayId = localStorage.getItem("selectedStay");
     const stay = stays.find(s => s.id == stayId);
 
@@ -148,14 +148,14 @@ if (window.location.pathname.includes("booking.html")) {
             allBookings.push(bookingData);
             localStorage.setItem("allBookings", JSON.stringify(allBookings));
 
-            window.location.href = "confirm.html";
+            window.location.href = "confirm.php";
 
         });
     }
 }
 
 // --- Display Booking Confirmation ---
-if (window.location.pathname.includes("confirm.html")) {
+if (window.location.pathname.includes("confirm.php")) {
     const booking = JSON.parse(localStorage.getItem("bookingInfo"));
     const confirmDiv = document.getElementById("confirmationMsg");
 
@@ -170,13 +170,13 @@ if (window.location.pathname.includes("confirm.html")) {
       <p><strong>Total Price:</strong> $${booking.total}</p>
       <p>Guests: ${booking.guests}</p>
       <p>We’ve sent the details to <strong>${booking.email}</strong>.</p>
-      <a href="index.html" class="back-btn">Back to Home</a>
+      <a href="index.php" class="back-btn">Back to Home</a>
     `;
     }
 }
 
 // --- My Bookings Page Logic ---
-if (window.location.pathname.includes("bookings.html")) {
+if (window.location.pathname.includes("bookings.php")) {
     const bookingsListDiv = document.getElementById("bookingsList");
     const allBookings = JSON.parse(localStorage.getItem("allBookings")) || [];
 
@@ -185,7 +185,7 @@ if (window.location.pathname.includes("bookings.html")) {
     } else {
         bookingsListDiv.innerHTML = allBookings.map((b, index) => `
   <div class="card">
-    <img src="${b.stay.image}" alt="${b.stay.name}">
+    <img src="${b.stay.images[0]}" alt="${b.stay.name}">
     <div class="card-content">
       <h3>${b.stay.name}</h3>
       <p>${b.stay.location.charAt(0).toUpperCase() + b.stay.location.slice(1)}</p>
@@ -218,7 +218,7 @@ function exploreDestination(place) {
     localStorage.setItem("searchLocation", place.toLowerCase());
 
     // Redirect to the listings page
-    window.location.href = "listings.html";
+    window.location.href = "listings.php";
 }
 
 // --- View Details Function ---
@@ -227,10 +227,10 @@ function viewDetails(id) {
     localStorage.setItem("selectedStay", id);
 
     // Redirect user to the details page
-    window.location.href = "details.html";
+    window.location.href = "details.php";
 }
 
-if (window.location.pathname.includes("details.html")) {
+if (window.location.pathname.includes("details.php")) {
     const stayId = localStorage.getItem("selectedStay");
     const stay = stays.find(s => s.id == stayId);
 
@@ -322,7 +322,7 @@ if (window.location.pathname.includes("details.html")) {
 
 function goToBooking(id) {
     localStorage.setItem("selectedStay", id);
-    window.location.href = "booking.html";
+    window.location.href = "booking.php";
 }
 
 

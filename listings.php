@@ -12,10 +12,9 @@
     <header>
         <h1>EasyStay</h1>
         <nav>
-            <a href="index.html" class="nav-btn">Home</a>
-            <a href="listings.html" class="nav-btn">Browse</a>
-            <a href="bookings.html" class="nav-btn">My Bookings</a>
-            <a href="#" class="nav-btn">Contact</a>
+            <a href="index.php" class="nav-btn">Home</a>
+            <a href="listings.php" class="nav-btn">Browse</a>
+            <a href="bookings.php" class="nav-btn">My Bookings</a>
         </nav>
     </header>
 
