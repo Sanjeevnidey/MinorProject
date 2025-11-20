@@ -1,14 +1,15 @@
 // --- Sample Data (Pretend these are from a database) ---
 const stays = [
     { id: 1, name: "Ocean View Resort", desc: "Get the celebrity treatment with world-class service ", location: "goa", price: 120, rating: 4.6, images: ["images/hotel1.png", "images/hotel2.png", "images/hotel3.png"] },
-    { id: 2, name: "Mountain Retreat", desc: "Get the celebrity treatment with world-class service ", location: "manali", price: 90, rating: 4.2, images: ["images/hotel1.png", "images/hotel2.png", "images/hotel3.png"] },
-    { id: 3, name: "City Comfort Inn", desc: "Get the celebrity treatment with world-class service ", location: "delhi", price: 80, rating: 4.0, images: ["images/hotel1.png", "images/hotel2.png", "images/hotel3.png"] },
-    { id: 4, name: "Desert Mirage Hotel", desc: "Get the celebrity treatment with world-class service ", location: "jaipur", price: 110, rating: 4.4, images: ["images/hotel1.png", "images/hotel2.png", "images/hotel3.png"] },
-    { id: 5, name: "Lake View Paradise", desc: "Get the celebrity treatment with world-class service ", location: "udaipur", price: 130, rating: 4.8, images: ["images/hotel1.png", "images/hotel2.png", "images/hotel3.png"] },
+    { id: 2, name: "Mountain Retreat", desc: "Get the celebrity treatment with world-class service ", location: "manali", price: 90, rating: 4.2, images: ["images/hotel2.png", "images/hotel2.png", "images/hotel3.png"] },
+    { id: 3, name: "City Comfort Inn", desc: "Get the celebrity treatment with world-class service ", location: "delhi", price: 80, rating: 4.0, images: ["images/hotel3.png", "images/hotel2.png", "images/hotel3.png"] },
+    { id: 4, name: "Desert Mirage Hotel", desc: "Get the celebrity treatment with world-class service ", location: "jaipur", price: 110, rating: 4.4, images: ["images/hotel4.png", "images/hotel2.png", "images/hotel3.png"] },
+    { id: 5, name: "Lake View Paradise", desc: "Get the celebrity treatment with world-class service ", location: "udaipur", price: 130, rating: 4.8, images: ["images/hotel5.png", "images/hotel2.png", "images/hotel3.png"] },
     { id: 6, name: "Lake View Paradise", desc: "Get the celebrity treatment with world-class service ", location: "udaipur", price: 130, rating: 4.8, images: ["images/hotel1.png", "images/hotel2.png", "images/hotel3.png"] },
-    { id: 7, name: "Lake View Paradise", desc: "Get the celebrity treatment with world-class service ", location: "udaipur", price: 130, rating: 4.8, images: ["images/hotel1.png", "images/hotel2.png", "images/hotel3.png"] }
-];
+    { id: 7, name: "Lake View Paradise", desc: "Get the celebrity treatment with world-class service ", location: "udaipur", price: 130, rating: 4.8, images: ["images/hotel2.png", "images/hotel2.png", "images/hotel3.png"] },
+    { id: 8, name: "ABC", desc: "Get the celebrity treatment with world-class service ", location: "ranchi", price: 130, rating: 4.8, images: ["images/hotel4.png", "images/hotel2.png", "images/hotel3.png"] }
 
+];
 
 // --- Handle Search Button Click on Home Page ---
 const searchBtn = document.getElementById("searchBtn");
@@ -34,52 +35,51 @@ if (searchBtn) {
 
 }
 
+function clearSearchLocation() {
+    localStorage.removeItem("searchLocation");
+}
+
 // --- Display Results on Listings Page ---
 if (window.location.pathname.includes("listings.php")) {
-    const searchLocation = localStorage.getItem("searchLocation");
     const resultsDiv = document.getElementById("results");
-
     const priceFilter = document.getElementById("priceFilter");
     const ratingFilter = document.getElementById("ratingFilter");
 
-    let filteredStays = stays.filter(s =>
-        s.location.includes(searchLocation)
-    );
+    const searchLocation = localStorage.getItem("searchLocation");
+
+    // If searchLocation exists, filter; else show all
+    let filteredStays = searchLocation 
+        ? stays.filter(s => s.location.includes(searchLocation))
+        : stays.slice(); // copy all stays
 
     function renderResults() {
         resultsDiv.innerHTML = filteredStays.map(stay => `
-    <div class="card">
-      <img src="${stay.images[0]}" alt="${stay.name}">
-      <h3>${stay.name}</h3>
-      <div class="card-info">
-        <p>${stay.location.charAt(0).toUpperCase() + stay.location.slice(1)} | ⭐ ${stay.rating}</p>
-        <p class="price">$${stay.price} / night</p>
-      </div>
-      <button onclick="viewDetails(${stay.id})">Book Now</button>
-    </div>
-  `).join("");
+            <div class="card">
+              <img src="${stay.images[0]}" alt="${stay.name}">
+              <h3>${stay.name}</h3>
+              <div class="card-info">
+                <p>${stay.location.charAt(0).toUpperCase() + stay.location.slice(1)} | ⭐ ${stay.rating}</p>
+                <p class="price">$${stay.price} / night</p>
+              </div>
+              <button onclick="viewDetails(${stay.id})">Book Now</button>
+            </div>
+        `).join("");
     }
-
 
     renderResults();
 
-    // --- Handle Filters ---
+    // Filters
     priceFilter.addEventListener("change", () => {
-        if (priceFilter.value === "lowToHigh") {
-            filteredStays.sort((a, b) => a.price - b.price);
-        } else if (priceFilter.value === "highToLow") {
-            filteredStays.sort((a, b) => b.price - a.price);
-        } else {
-            filteredStays = stays.filter(s => s.location.includes(searchLocation));
-        }
+        if (priceFilter.value === "lowToHigh") filteredStays.sort((a,b) => a.price - b.price);
+        else if (priceFilter.value === "highToLow") filteredStays.sort((a,b) => b.price - a.price);
+        else filteredStays = searchLocation ? stays.filter(s => s.location.includes(searchLocation)) : stays.slice();
         renderResults();
     });
 
     ratingFilter.addEventListener("change", () => {
         const minRating = parseFloat(ratingFilter.value);
-        filteredStays = stays.filter(s =>
-            s.location.includes(searchLocation) && s.rating >= minRating
-        );
+        filteredStays = (searchLocation ? stays.filter(s => s.location.includes(searchLocation)) : stays)
+            .filter(s => s.rating >= minRating);
         renderResults();
     });
 }
@@ -116,6 +116,15 @@ if (window.location.pathname.includes("booking.php")) {
         document.getElementById("stayRating").textContent = "⭐ " + stay.rating;
         document.getElementById("stayPrice").textContent = `Price per Night: $${stay.price}`;
 
+        document.getElementById("stay_id").value = stay.id;
+        document.getElementById("stay_name").value = stay.name;
+        document.getElementById("stay_location").value = stay.location;
+        document.getElementById("price_per_night").value = stay.price;
+        document.getElementById("image_path").value = stay.images[0]; // ⭐ ADD THIS
+        document.getElementById("nights").value = nights;
+        document.getElementById("total").value = total;
+
+
         // Optional: display total somewhere else (or console log)
         console.log(`Total: $${total} (${nights} nights)`);
 
@@ -139,78 +148,15 @@ if (window.location.pathname.includes("booking.php")) {
                 nights,
                 total
             };
-
-            // Save this booking as "latest"
-            localStorage.setItem("bookingInfo", JSON.stringify(bookingData));
-
-            // Also store it in "allBookings" list
-            let allBookings = JSON.parse(localStorage.getItem("allBookings")) || [];
-            allBookings.push(bookingData);
-            localStorage.setItem("allBookings", JSON.stringify(allBookings));
-
-            window.location.href = "confirm.php";
-
         });
     }
 }
 
-// --- Display Booking Confirmation ---
-if (window.location.pathname.includes("confirm.php")) {
-    const booking = JSON.parse(localStorage.getItem("bookingInfo"));
-    const confirmDiv = document.getElementById("confirmationMsg");
+// --- Display Booking Confirmation -- DELETED
 
-    if (!booking) {
-        confirmDiv.innerHTML = "<p>No booking data found.</p>";
-    } else {
-        confirmDiv.innerHTML = `
-      <p>Thank you, <strong>${booking.name}</strong>!</p>
-      <p>Your booking for <strong>${booking.stay.name}</strong> in ${booking.stay.location} is confirmed.</p>
-      <p><strong>Check-in:</strong> ${booking.checkin} | <strong>Check-out:</strong> ${booking.checkout}</p>
-      <p><strong>Nights:</strong> ${booking.nights}</p>
-      <p><strong>Total Price:</strong> $${booking.total}</p>
-      <p>Guests: ${booking.guests}</p>
-      <p>We’ve sent the details to <strong>${booking.email}</strong>.</p>
-      <a href="index.php" class="back-btn">Back to Home</a>
-    `;
-    }
-}
+// --- My Bookings Page Logic --- DELETED
 
-// --- My Bookings Page Logic ---
-if (window.location.pathname.includes("bookings.php")) {
-    const bookingsListDiv = document.getElementById("bookingsList");
-    const allBookings = JSON.parse(localStorage.getItem("allBookings")) || [];
-
-    if (allBookings.length === 0) {
-        bookingsListDiv.innerHTML = "<p>No bookings found yet.</p>";
-    } else {
-        bookingsListDiv.innerHTML = allBookings.map((b, index) => `
-  <div class="card">
-    <img src="${b.stay.images[0]}" alt="${b.stay.name}">
-    <div class="card-content">
-      <h3>${b.stay.name}</h3>
-      <p>${b.stay.location.charAt(0).toUpperCase() + b.stay.location.slice(1)}</p>
-      <p><strong>Check-in:</strong> ${b.checkin}</p>
-      <p><strong>Check-out:</strong> ${b.checkout}</p>
-      <p><strong>Total:</strong> $${b.total}</p>
-      <p><strong>Guests:</strong> ${b.guests}</p>
-    </div>
-    <button class="cancel-btn" onclick="cancelBooking(${index})">Cancel Booking</button>
-  </div>
-`).join("");
-
-    }
-}
-
-// --- Cancel Booking Function ---
-function cancelBooking(index) {
-    let allBookings = JSON.parse(localStorage.getItem("allBookings")) || [];
-    const confirmCancel = confirm("Are you sure you want to cancel this booking?");
-    if (confirmCancel) {
-        allBookings.splice(index, 1);
-        localStorage.setItem("allBookings", JSON.stringify(allBookings));
-        location.reload();
-    }
-}
+// --- Cancel Booking Function --- DELETED
 
 // --- Explore Featured Destination ---
 function exploreDestination(place) {

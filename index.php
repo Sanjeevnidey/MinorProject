@@ -12,22 +12,21 @@
 
 <body>
    <header>
-    <h1 class="logo">EasyStay</h1>
+        <h1 class="logo">EasyStay</h1>
+        <nav>
+            <a href="index.php" class="nav-btn">Home</a>
+            <a href="listings.php" class="nav-btn" onclick="clearSearchLocation()">Browse</a>
+            <a href="bookings.php" class="nav-btn">My Bookings</a>
 
-    <nav>
-        <a href="index.php" class="nav-btn">Home</a>
-        <a href="listings.php" class="nav-btn">Browse</a>
-        <a href="bookings.php" class="nav-btn">My Bookings</a>
-
-        <?php if(isset($_SESSION["user"])): ?>
-            <span class="nav-btn" style="font-weight:bold;">Hi, <?php echo $_SESSION["user"]; ?></span>
-            <a href="logout.php" class="nav-btn">Logout</a>
-        <?php else: ?>
-            <a href="login.php" class="nav-btn">Login</a>
-            <a href="signup.php" class="nav-btn">Signup</a>
-        <?php endif; ?>
-    </nav>
-</header>
+            <?php if(isset($_SESSION["user"])): ?>
+                <span class="nav-btn" style="font-weight:bold;">Hi, <?php echo $_SESSION["user"]; ?></span>
+                <a href="logout.php" class="nav-btn">Logout</a>
+            <?php else: ?>
+                <a href="login.php" class="nav-btn">Login</a>
+                <a href="signup.php" class="nav-btn">Signup</a>
+            <?php endif; ?>
+        </nav>
+    </header>
 
 
     <main>
@@ -87,7 +86,7 @@
     </main>
 
     <footer>
-        <p>© 2025 EasyStay · Designed with 💙 by You</p>
+        <p>© 2025 EasyStay · All rights reserved.</p>
     </footer>
 
     <script src="js/script.js"></script>
